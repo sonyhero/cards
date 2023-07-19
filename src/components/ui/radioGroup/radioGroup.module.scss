@@ -107,6 +107,10 @@ button {
       }
     }
 
+    .label {
+      cursor: pointer;
+    }
+
     .labelDisabled {
       p {
         color: var(--color-light-900);

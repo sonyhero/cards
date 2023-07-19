@@ -16,6 +16,7 @@ input {
     flex-shrink: 0;
 
     .tabsTrigger {
+      cursor: pointer;
       user-select: none;
 
       display: flex;
