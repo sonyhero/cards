@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
 import s from './input.module.scss'
 
@@ -11,7 +11,7 @@ export const Input = (
   props: InputProps & Omit<ComponentPropsWithoutRef<'input'>, keyof InputProps>
 ) => {
   const { variant = 'primary', className, ...rest } = props
-  const [newText, setNewText] = useState('')
+  // const [newText, setNewText] = useState('')
 
   return (
     <div>
