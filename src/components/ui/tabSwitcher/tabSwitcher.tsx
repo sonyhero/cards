@@ -1,11 +1,13 @@
 import * as Tabs from '@radix-ui/react-tabs'
 
-import s from './tabSwitcher.module.scss'
+import { Typography } from '../typography'
 
+import s from './tabSwitcher.module.scss'
 export const TabSwitcher = () => {
   const tabsName = [
-    { name: 'My cards', value: 'Button1' },
-    { name: 'All cards', value: 'Button2' },
+    { name: 'Switcher', value: 'Button1', isDisabled: false },
+    { name: 'Switcher', value: 'Button2', isDisabled: true },
+    { name: 'Switcher', value: 'Button3', isDisabled: false },
   ]
 
   return (
@@ -13,14 +15,19 @@ export const TabSwitcher = () => {
       <Tabs.List className={s.tabsList} aria-label="Manage your account">
         {tabsName.map((tab, index) => {
           return (
-            <Tabs.Trigger className={s.tabsTrigger} value={tab.value} key={index}>
-              {tab.name}
+            <Tabs.Trigger
+              disabled={tab.isDisabled}
+              className={s.tabsTrigger}
+              value={tab.value}
+              key={index}
+            >
+              <Typography className={'body1'}>{tab.name}</Typography>
             </Tabs.Trigger>
           )
         })}
       </Tabs.List>
-      <Tabs.Content className={s.tabsContent} value="tab1"></Tabs.Content>
-      <Tabs.Content className={s.tabsContent} value="tab2"></Tabs.Content>
+      {/*<Tabs.Content className={s.tabsContent} value={tab.value}></Tabs.Content>
+      <Tabs.Content className={s.tabsContent} value={tab.value}></Tabs.Content>*/}
     </Tabs.Root>
   )
 }
