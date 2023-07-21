@@ -27,7 +27,6 @@ input {
       padding: 0.38rem 1.5rem;
 
       border: 1px solid var(--dark-300, #4c4c4c);
-      border-radius: 0.125rem 0 0 0.125rem;
 
       &:focus {
         border: 2px solid var(--color-info-900);
@@ -61,10 +60,12 @@ input {
       }
 
       &:first-child {
+        border-right: none;
         border-radius: 0.125rem 0 0 0.125rem;
       }
 
       &:last-child {
+        border-left: none;
         border-radius: 0 0.125rem 0.125rem 0;
       }
     }
