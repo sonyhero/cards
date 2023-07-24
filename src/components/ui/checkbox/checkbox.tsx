@@ -26,7 +26,6 @@ export const CheckboxDemo: FC<CheckBoxProps> = ({
       <Checkbox.Root
         onClick={() => setCheck(!check)}
         className={`${s.checkboxRoot} ${check ? s.active : s.unActive}`}
-        defaultChecked
         id="c1"
         checked={check}
         disabled={isDisabled}
