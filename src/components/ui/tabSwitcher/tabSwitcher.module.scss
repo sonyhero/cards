@@ -26,6 +26,10 @@
 
       border: 1px solid var(--dark-300, #4c4c4c);
 
+      &:focus {
+        border: 2px solid var(--color-info-900);
+      }
+
       &:hover {
         background-color: var(--color-dark-300);
         border: 1px solid var(--color-dark-100);
@@ -56,22 +60,18 @@
       &:first-child {
         border-right: none;
         border-radius: 0.125rem 0 0 0.125rem;
+
+        &:focus {
+          border: 2px solid var(--color-info-900);
+        }
       }
 
       &:last-child {
         border-left: none;
         border-radius: 0 0.125rem 0.125rem 0;
-      }
 
-      &:focus {
-        border: 2px solid var(--color-info-900);
-
-        &:first-child {
-          border-radius: 0.125rem 0 0 0.125rem;
-        }
-
-        &:last-child {
-          border-radius: 0 0.125rem 0.125rem 0;
+        &:focus {
+          border: 2px solid var(--color-info-900);
         }
       }
     }
