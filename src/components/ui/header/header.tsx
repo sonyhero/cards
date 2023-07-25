@@ -1,7 +1,8 @@
 import { FC } from 'react'
 
-import { Avatar, Logo } from '../../../common/assets/img'
+import { Logo } from '../../../common/assets/img'
 import { Button } from '../button'
+import { DropDownMenuDemo } from '../dropDownMenu'
 import { Typography } from '../typography'
 
 import s from './header.module.scss'
@@ -21,7 +22,7 @@ export const Header: FC<Props> = props => {
           <Typography variant={'subtitle1'} className={s.menu_name}>
             Name
           </Typography>
-          <Avatar />
+          <DropDownMenuDemo />
         </div>
       )}
     </div>
