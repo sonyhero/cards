@@ -6,6 +6,7 @@ const meta = {
   title: 'Components/TextField',
   component: TextField,
   tags: ['autodocs'],
+  argTypes: { onChange: { action: 'text changes' } },
 } satisfies Meta<typeof TextField>
 
 export default meta
@@ -14,6 +15,7 @@ type Story = StoryObj<typeof meta>
 export const TextFieldDefault: Story = {
   args: {
     placeholder: 'Default',
+    value: '',
     type: 'default',
     disableValue: false,
   },
@@ -21,6 +23,7 @@ export const TextFieldDefault: Story = {
 export const TextFieldDefaultError: Story = {
   args: {
     placeholder: 'Default',
+    value: '',
     type: 'default',
     disableValue: false,
     errorMessage: 'Error!',
@@ -29,6 +32,7 @@ export const TextFieldDefaultError: Story = {
 export const TextFieldPassword: Story = {
   args: {
     placeholder: 'Password',
+    value: '',
     type: 'password',
     disableValue: false,
   },
@@ -36,6 +40,7 @@ export const TextFieldPassword: Story = {
 export const TextFieldPasswordError: Story = {
   args: {
     placeholder: 'Password',
+    value: '',
     type: 'password',
     disableValue: false,
     errorMessage: 'Error!',
@@ -44,6 +49,7 @@ export const TextFieldPasswordError: Story = {
 export const TextFieldSearch: Story = {
   args: {
     placeholder: 'Search',
+    value: '',
     type: 'searchType',
     disableValue: false,
   },
@@ -51,6 +57,7 @@ export const TextFieldSearch: Story = {
 export const TextFieldSearchError: Story = {
   args: {
     placeholder: 'Search',
+    value: '',
     type: 'searchType',
     disableValue: false,
     errorMessage: 'Error!',
