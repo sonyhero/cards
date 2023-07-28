@@ -22,7 +22,7 @@
   border-radius: 0.25rem;
 
   &:focus {
-    border: 2px solid var(--color-info-700);
+    box-shadow: 0 0 0 2px var(--color-info-700);
   }
 }
 
@@ -61,7 +61,6 @@
 
   &:focus {
     background-color: var(--color-dark-300);
-    border: 2px solid var(--info-700, #2f68cc);
   }
 
   &:active {
