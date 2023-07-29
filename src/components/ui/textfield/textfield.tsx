@@ -1,12 +1,14 @@
 import { ChangeEvent, KeyboardEvent, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
 import { DeleteIcon, Eye, NotEye, Search } from '../../../common/assets/img'
+import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
 import s from './textfield.module.scss'
 
 export type TextFieldProps = {
   type: 'default' | 'password' | 'searchType'
+  label?: string
   errorMessage?: string
   placeholder?: string
   disableValue?: boolean
@@ -18,6 +20,7 @@ export type TextFieldProps = {
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({
+    label,
     errorMessage,
     placeholder = 'TextField',
     type = 'default',
@@ -55,7 +58,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     }
 
     return (
-      <>
+      <LabelDemo label={label} variant={'secondary'}>
         <div className={s.fieldContainer}>
           {type === 'searchType' && (
             <span className={s.search}>
@@ -101,7 +104,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <Typography variant="body1" className={s.errorMessage}>
           {errorMessage}
         </Typography>
-      </>
+      </LabelDemo>
     )
   }
 )
