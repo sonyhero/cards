@@ -12,25 +12,28 @@ export type TextFieldProps = {
   errorMessage?: string
   placeholder?: string
   disableValue?: boolean
-  value: string
+  value?: string
   onChangeText?: (value: string) => void
   onEnter?: () => void
   onSearchClear?: () => void
 } & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({
-    label,
-    errorMessage,
-    placeholder = 'TextField',
-    type = 'default',
-    disableValue = false,
-    value,
-    onEnter,
-    onChangeText,
-    onSearchClear,
-    ...restProps
-  }) => {
+  (
+    {
+      errorMessage,
+      label,
+      placeholder = 'Some text',
+      type = 'default',
+      disableValue = false,
+      value,
+      onEnter,
+      onSearchClear,
+      onChangeText,
+      ...restProps
+    },
+    ref
+  ) => {
     const [showPassword, setShowPassword] = useState(true)
 
     const finalType = getType(type, showPassword)
@@ -52,9 +55,10 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
       onEnter && e.key === 'Enter' && onEnter()
     }
-
     const onSearchClearHandler = () => {
-      onSearchClear?.()
+      if (onSearchClear) {
+        onSearchClear()
+      }
     }
 
     return (
@@ -74,6 +78,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             onKeyDown={onKeyPressCallback}
             style={inputStyle(type)}
             value={value}
+            ref={ref}
             {...restProps}
           />
           {type === 'password' && (
