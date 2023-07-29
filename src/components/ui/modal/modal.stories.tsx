@@ -19,23 +19,6 @@ const meta = {
 export default meta
 // type Story = StoryObj<typeof meta>
 
-// export const ModalStory: Story = {
-//   args: {
-//     open: true,
-//     title: 'hello there',
-//     showCloseButton: true,
-//     children: (
-//       <>
-//         <TextField type={'searchType'} />
-//         <TextField type={'default'} />
-//         <CheckboxDemo variant={'default'} />
-//         <Typography variant={'body1'}> Hello There!</Typography>
-//         <RadioGroupDemo />
-//       </>
-//     ),
-//   },
-// }
-
 export const ModalDemo = () => {
   const [open, setOpen] = useState(false)
 
@@ -52,9 +35,9 @@ export const ModalDemo = () => {
         Open Modal
       </Button>
       <Modal title={'hello'} showCloseButton={true} open={open} onClose={handleClose}>
-        <TextField type={'searchType'} />
-        <TextField type={'default'} />
-        <CheckboxDemo variant={'default'} />
+        <TextField value={'value'} type={'searchType'} />
+        <TextField value={'value'} type={'default'} />
+        <CheckboxDemo variant={'default'} onChange={() => {}} checked={true} />
         <Typography variant={'body1'}> Hello There!</Typography>
         <RadioGroupDemo />
       </Modal>

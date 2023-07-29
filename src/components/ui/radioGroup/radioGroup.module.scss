@@ -1,4 +1,5 @@
 .radioGroupRoot {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -111,6 +112,7 @@
 
     .label {
       cursor: pointer;
+      user-select: none;
     }
 
     .labelDisabled {
