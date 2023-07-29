@@ -3,6 +3,7 @@
 .label {
   @include typography(var(--font-size-s), var(--line-height-m), var(--font-weight-regular));
 
+  cursor: pointer;
   display: inline-block;
   margin-bottom: 1px;
 }

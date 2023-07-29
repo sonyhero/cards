@@ -31,5 +31,7 @@ export const SelectStory: Story = {
 export const SelectStoryDisabled: Story = {
   args: {
     isDisabled: true,
+    options: people,
+    value: people[0],
   },
 }
