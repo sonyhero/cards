@@ -1,6 +1,7 @@
 import { ChangeEvent, ComponentPropsWithoutRef, forwardRef, KeyboardEvent, useState } from 'react'
 
 import { DeleteIcon, Eye, NotEye, Search } from '../../../common/assets/img'
+import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
 import s from './textfield.module.scss'
@@ -55,12 +56,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     }
 
     return (
-      <div>
-        {label && (
-          <Typography variant={'body2'} as={'label'} className={s.label}>
-            {label}
-          </Typography>
-        )}
+      <LabelDemo label={label} variant={'secondary'}>
         <div className={`${s.fieldContainer} ${className}`}>
           {type === 'searchType' && (
             <span className={s.search}>
@@ -105,7 +101,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <Typography variant="body1" className={s.errorMessage}>
           {errorMessage}
         </Typography>
-      </div>
+      </LabelDemo>
     )
   }
 )
