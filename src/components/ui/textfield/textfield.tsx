@@ -1,7 +1,6 @@
-import { ChangeEvent, KeyboardEvent, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
+import { ChangeEvent, ComponentPropsWithoutRef, forwardRef, KeyboardEvent, useState } from 'react'
 
 import { DeleteIcon, Eye, NotEye, Search } from '../../../common/assets/img'
-import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
 import s from './textfield.module.scss'
@@ -12,29 +11,24 @@ export type TextFieldProps = {
   errorMessage?: string
   placeholder?: string
   disableValue?: boolean
-  value?: string
   onChangeText?: (value: string) => void
   onEnter?: () => void
   onSearchClear?: () => void
 } & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  (
-    {
-      errorMessage,
-      label,
-      placeholder = 'Some text',
-      type = 'default',
-      disableValue = false,
-      value,
-      onEnter,
-      onSearchClear,
-      onChangeText,
-      className,
-      ...restProps
-    }
-    // ref
-  ) => {
+  ({
+    errorMessage,
+    label,
+    placeholder = 'Some text',
+    type = 'default',
+    disableValue = false,
+    onEnter,
+    onSearchClear,
+    onChangeText,
+    className,
+    ...restProps
+  }) => {
     const [showPassword, setShowPassword] = useState(true)
 
     const finalType = getType(type, showPassword)
@@ -57,13 +51,16 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onEnter && e.key === 'Enter' && onEnter()
     }
     const onSearchClearHandler = () => {
-      if (onSearchClear) {
-        onSearchClear()
-      }
+      onSearchClear?.()
     }
 
     return (
-      <LabelDemo label={label} variant={'secondary'}>
+      <div>
+        {label && (
+          <Typography variant={'body2'} as={'label'} className={s.label}>
+            {label}
+          </Typography>
+        )}
         <div className={`${s.fieldContainer} ${className}`}>
           {type === 'searchType' && (
             <span className={s.search}>
@@ -78,8 +75,6 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             onChange={onChangeHandler}
             onKeyDown={onKeyPressCallback}
             style={inputStyle(type)}
-            value={value}
-            // ref={ref}
             {...restProps}
           />
           {type === 'password' && (
@@ -110,7 +105,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <Typography variant="body1" className={s.errorMessage}>
           {errorMessage}
         </Typography>
-      </LabelDemo>
+      </div>
     )
   }
 )

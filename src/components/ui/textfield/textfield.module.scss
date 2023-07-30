@@ -81,6 +81,11 @@
   }
 }
 
+.label {
+  margin-bottom: 1px;
+  color: var(--color-dark-100);
+}
+
 .errorMessage {
   color: var(--color-danger-300);
 }
