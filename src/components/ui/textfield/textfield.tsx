@@ -7,7 +7,7 @@ import { Typography } from '../typography'
 import s from './textfield.module.scss'
 
 export type TextFieldProps = {
-  type: 'default' | 'password' | 'searchType'
+  type?: 'default' | 'password' | 'searchType'
   label?: string
   errorMessage?: string
   placeholder?: string
@@ -30,6 +30,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onEnter,
       onSearchClear,
       onChangeText,
+      className,
       ...restProps
     },
     ref
@@ -63,7 +64,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <LabelDemo label={label} variant={'secondary'}>
-        <div className={s.fieldContainer}>
+        <div className={`${s.fieldContainer} ${className}`}>
           {type === 'searchType' && (
             <span className={s.search}>
               <Search fill={disableValue ? '#4c4c4c' : '#808080'} />

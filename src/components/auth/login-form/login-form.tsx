@@ -3,8 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { ControlledCheckbox } from '../../controlled/controlled-checkBox'
 import { Button } from '../../ui/button'
+import { ControlledCheckbox } from '../../ui/controlled/controlled-checkBox'
 import { TextField } from '../../ui/textfield'
 
 const loginSchema = z.object({
