@@ -2,10 +2,6 @@
   display: flex;
   align-items: center;
 
-  button {
-    all: unset;
-  }
-
   .checkboxRoot {
     cursor: pointer;
 
@@ -17,6 +13,7 @@
 
     width: 1.5rem;
     height: 1.5rem;
+    margin-right: 5px;
 
     border: 2px solid var(--color-light-900);
     border-radius: 4px;
@@ -84,11 +81,10 @@
 
   .label {
     cursor: pointer;
-    margin-left: 0.75rem;
-  }
+    display: flex;
+    align-items: center;
 
-  .labelDisabled {
-    p {
+    &.disabled {
       color: var(--color-light-700);
     }
   }
