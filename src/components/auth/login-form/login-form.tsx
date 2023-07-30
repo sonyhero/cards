@@ -46,7 +46,7 @@ export const LoginForm = () => {
       />
       <ControlledCheckbox
         variant={'withText'}
-        checkBoxText={'remember me'}
+        label={'remember me'}
         control={control}
         name={'rememberMe'}
       />
