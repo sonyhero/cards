@@ -37,7 +37,7 @@ export const CheckboxWithText: Story = {
   args: {
     checked: false,
     variant: 'withText',
-    checkBoxText: 'Test',
+    label: 'Test',
   },
 }
 
@@ -46,6 +46,6 @@ export const DisabledCheckboxWithText: Story = {
     checked: false,
     variant: 'withText',
     disabled: true,
-    checkBoxText: 'Test',
+    label: 'Test',
   },
 }
