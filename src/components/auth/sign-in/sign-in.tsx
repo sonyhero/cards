@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { Button } from '../../ui/button'
 import { Card } from '../../ui/card'
 import { ControlledCheckbox } from '../../ui/controlled/controlled-checkBox'
-import { TextField } from '../../ui/textfield'
+import { ControlledTextField } from '../../ui/controlled/controlled-textField'
 import { Typography } from '../../ui/typography'
 
 import s from './sign-in.module.scss'
@@ -21,7 +21,6 @@ type SignInFormSchema = z.infer<typeof sigInSchema>
 export const SignIn = () => {
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormSchema>({
@@ -36,23 +35,25 @@ export const SignIn = () => {
     <Card className={s.signBlock}>
       <Typography variant={'large'} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register('email')}
+        <ControlledTextField
           className={s.field}
           errorMessage={errors.email?.message}
-          label={'email'}
+          label={'Email'}
+          name={'email'}
           type={'default'}
+          control={control}
         />
-        <TextField
-          {...register('password')}
+        <ControlledTextField
           className={s.field}
           errorMessage={errors.password?.message}
-          label={'password'}
+          label={'Password'}
+          name={'password'}
           type={'password'}
+          control={control}
         />
         <ControlledCheckbox
           variant={'withText'}
-          checkBoxText={'remember me'}
+          label={'Remember me'}
           control={control}
           name={'rememberMe'}
         />
