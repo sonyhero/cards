@@ -32,8 +32,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onChangeText,
       className,
       ...restProps
-    },
-    ref
+    }
+    // ref
   ) => {
     const [showPassword, setShowPassword] = useState(true)
 
@@ -79,7 +79,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             onKeyDown={onKeyPressCallback}
             style={inputStyle(type)}
             value={value}
-            ref={ref}
+            // ref={ref}
             {...restProps}
           />
           {type === 'password' && (

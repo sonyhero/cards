@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { Button } from '../../ui/button'
 import { ControlledCheckbox } from '../../ui/controlled/controlled-checkBox'
-import { TextField } from '../../ui/textfield'
+import { ControlledTextField } from '../../ui/controlled/controlled-textField'
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -18,7 +18,6 @@ type LoginFormSchema = z.infer<typeof loginSchema>
 export const LoginForm = () => {
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormSchema>({
@@ -32,17 +31,18 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <DevTool control={control} />
-      <TextField
-        {...register('email')}
+      <ControlledTextField
         errorMessage={errors.email?.message}
-        label={'email'}
-        type={'default'}
+        name={'email'}
+        label={'Email'}
+        control={control}
       />
-      <TextField
-        {...register('password')}
-        errorMessage={errors.password?.message}
-        label={'password'}
-        type={'default'}
+      <ControlledTextField
+        errorMessage={errors.email?.message}
+        name={'password'}
+        label={'Password'}
+        type={'password'}
+        control={control}
       />
       <ControlledCheckbox
         variant={'withText'}
