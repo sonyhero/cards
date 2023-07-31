@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { Listbox } from '@headlessui/react'
 
-import { SelectArrow } from '../../../common/assets/img'
+import { SelectArrow } from '../../../common/assets'
 import { Typography } from '../typography'
 
 import s from './select.module.scss'

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { SelectDemo } from './'
+import { SelectDemo } from './select.tsx'
 
 const meta = {
   title: 'Components/Select',
