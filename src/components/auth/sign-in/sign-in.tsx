@@ -2,11 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button } from '../../ui/button'
-import { Card } from '../../ui/card'
+import { Button, Typography, Card } from '../../ui'
 import { ControlledCheckbox } from '../../ui/controlled/controlled-checkBox'
 import { ControlledTextField } from '../../ui/controlled/controlled-textField'
-import { Typography } from '../../ui/typography'
 
 import s from './sign-in.module.scss'
 
@@ -19,11 +17,7 @@ const sigInSchema = z.object({
 type SignInFormSchema = z.infer<typeof sigInSchema>
 
 export const SignIn = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignInFormSchema>({
+  const { control, handleSubmit } = useForm<SignInFormSchema>({
     resolver: zodResolver(sigInSchema),
   })
 
@@ -33,41 +27,42 @@ export const SignIn = () => {
 
   return (
     <Card className={s.signBlock}>
-      <Typography variant={'large'} />
+      <Typography className={s.title} variant={'large'}>
+        Sign In
+      </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <ControlledTextField
-          className={s.field}
-          errorMessage={errors.email?.message}
-          label={'Email'}
           name={'email'}
+          label={'Email'}
           type={'default'}
           control={control}
+          className={s.email}
         />
         <ControlledTextField
-          className={s.field}
-          errorMessage={errors.password?.message}
-          label={'Password'}
           name={'password'}
+          label={'Password'}
           type={'password'}
           control={control}
+          className={s.password}
         />
         <ControlledCheckbox
-          variant={'withText'}
-          label={'Remember me'}
           control={control}
           name={'rememberMe'}
+          variant={'withText'}
+          label={'Remember me'}
         />
         <div className={s.forgotWrapper}>
           <Button as={'a'} variant={'link'}>
             <Typography variant={'body2'}>Forgot Password?</Typography>
           </Button>
         </div>
-
         <Button fullWidth={true} className={s.submit} type="submit">
           Sign In
         </Button>
       </form>
-      <Typography variant={'body2'}>Already have an account?</Typography>
+      <Typography variant={'body2'} className={s.question}>
+        {`Don't have an account?`}
+      </Typography>
       <Button as={'a'} variant={'link'} className={s.signUp}>
         Sign Up
       </Button>
