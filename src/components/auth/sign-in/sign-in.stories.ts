@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import { SignIn } from './sign-in.tsx'
 
@@ -11,4 +11,4 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const SigInDemo: Story = {}
+export const Sign_In: Story = {}
