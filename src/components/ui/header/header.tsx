@@ -1,17 +1,38 @@
 import { FC } from 'react'
 
-import { Logo } from '../../../common/assets/img'
+import { Logo, Logout, Profile } from '../../../common/assets'
 import { Button } from '../button'
 import { DropDownMenuDemo } from '../dropDownMenu'
 import { Typography } from '../typography'
 
 import s from './header.module.scss'
+import { ProfileBlock } from './profile-block'
 
-type Props = {
+type HeaderProps = {
   isAuth: boolean
 }
-export const Header: FC<Props> = props => {
-  const { isAuth } = props
+export const Header: FC<HeaderProps> = ({ isAuth }) => {
+  const dropDownMenu = [
+    { id: 1, component: <ProfileBlock /> },
+    {
+      id: 2,
+      component: (
+        <Button variant={'link'} className={s.buttonDrop}>
+          <Profile />
+          <Typography variant={'caption'}>My Profile</Typography>
+        </Button>
+      ),
+    },
+    {
+      id: 3,
+      component: (
+        <Button variant={'link'} className={s.buttonDrop}>
+          <Logout />
+          <Typography variant={'caption'}>Sign Out</Typography>
+        </Button>
+      ),
+    },
+  ]
 
   return (
     <div className={s.headerBlock}>
@@ -22,7 +43,7 @@ export const Header: FC<Props> = props => {
           <Typography variant={'subtitle1'} className={s.menu_name}>
             Name
           </Typography>
-          <DropDownMenuDemo />
+          <DropDownMenuDemo items={dropDownMenu} />
         </div>
       )}
     </div>
