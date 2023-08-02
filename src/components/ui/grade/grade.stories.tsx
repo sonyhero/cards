@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Stars } from './stars.tsx'
+import { Grade } from './grade.tsx'
 
 const meta = {
   title: 'Components/Stars',
-  component: Stars,
+  component: Grade,
   tags: ['autodocs'],
-} satisfies Meta<typeof Stars>
+} satisfies Meta<typeof Grade>
 
 export default meta
 type Story = StoryObj<typeof meta>
