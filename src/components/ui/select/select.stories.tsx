@@ -1,39 +1,37 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { SelectRadix } from './select.tsx'
+import { SelectDemo } from './'
 
 const meta = {
-  title: 'Components/SelectRadix',
-  component: SelectRadix,
+  title: 'Components/Select',
+  component: SelectDemo,
   tags: ['autodocs'],
-  argTypes: { onValueChange: { action: 'select changes' } },
-} satisfies Meta<typeof SelectRadix>
+  argTypes: { onChangeOption: { action: 'select changes' } },
+} satisfies Meta<typeof SelectDemo>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 const people = [
-  { value: '1', label: 'Durward Reynolds' },
-  { value: '2', label: 'Kenton Towne' },
-  { value: '3', label: 'Therese Wunsch' },
-  { value: '4', label: 'Benedict Kessler' },
-  { value: '5', label: 'Katelyn Rohan' },
+  { id: 1, value: 'Durward Reynolds' },
+  { id: 2, value: 'Kenton Towne' },
+  { id: 3, value: 'Therese Wunsch' },
+  { id: 4, value: 'Benedict Kessler' },
+  { id: 5, value: 'Katelyn Rohan' },
 ]
 
 export const SelectStory: Story = {
   args: {
-    label: 'Select',
-    placeholder: 'Select item',
-    disabled: false,
+    isDisabled: false,
     options: people,
+    value: people[0],
   },
 }
 
 export const SelectStoryDisabled: Story = {
   args: {
-    label: 'Select',
-    placeholder: 'Select item',
-    disabled: true,
+    isDisabled: true,
     options: people,
+    value: people[0],
   },
 }
