@@ -21,7 +21,7 @@ type PropsType = {
   showCloseButton?: boolean
   titleButton: string
   title?: string
-  callBack: () => void
+  callBack?: () => void
 } & ComponentProps<'div'>
 
 export const Modal: FC<PropsType> = ({
