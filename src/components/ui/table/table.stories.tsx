@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { Column, Sort, TableHeader } from './headerTable.tsx'
+
 import { Table } from './'
 
 const meta = {
@@ -48,57 +50,33 @@ const data = [
   },
 ]
 
-type Sort = {
-  key: string
-  direction: 'asc' | 'desc'
-} | null
-
 export const WithSort = () => {
   const [sort, setSort] = useState<Sort>(null)
 
-  const handleSort = (key: string) => {
-    if (sort && sort.key === key) {
-      setSort({
-        key,
-        direction: sort.direction === 'asc' ? 'desc' : 'asc',
-      })
-    } else {
-      setSort({
-        key,
-        direction: 'asc',
-      })
-    }
-  }
+  const columns: Column[] = [
+    {
+      key: 'name',
+      title: 'Name',
+    },
+    {
+      key: 'cardsCount',
+      title: 'Cards',
+    },
+    {
+      key: 'updated',
+      title: 'Last Updated',
+    },
+    {
+      key: 'createdBy',
+      title: 'Created by',
+    },
+  ]
 
   console.log(sort)
 
   return (
     <table>
-      <thead>
-        <tr>
-          <th onClick={() => handleSort('name')}>
-            Name
-            {sort && sort.key === 'name' && <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>}
-          </th>
-          <th onClick={() => handleSort('cardsCount')}>
-            Cards
-            {sort && sort.key === 'cardsCount' && (
-              <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>
-            )}
-          </th>
-          <th onClick={() => handleSort('updated')}>
-            Last Updated
-            {sort && sort.key === 'updated' && <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>}
-          </th>
-          <th onClick={() => handleSort('createdBy')}>
-            Created by
-            {sort && sort.key === 'createdBy' && (
-              <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>
-            )}
-          </th>
-          <th></th>
-        </tr>
-      </thead>
+      <TableHeader columns={columns} sort={sort} onSort={setSort} />
       <tbody>
         {data.map(item => (
           <tr key={item.title}>
