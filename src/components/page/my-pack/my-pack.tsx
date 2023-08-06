@@ -1,7 +1,15 @@
 import { useState } from 'react'
 
 import { ArrowDown, ArrowUp, Back, Edit, Play, SubMenu, Trash } from '../../../common/assets'
-import { Button, DropDownMenuDemo, TableElement, TextField, Typography } from '../../ui'
+import {
+  Button,
+  CheckboxDemo,
+  DropDownMenuDemo,
+  Modal,
+  TableElement,
+  TextField,
+  Typography,
+} from '../../ui'
 import { Grade } from '../../ui/grade'
 
 import s from './my-pack.module.scss'
@@ -14,6 +22,23 @@ type TestDataType = {
   grade: JSX.Element
 }
 export const MyPack = () => {
+  const [openEdit, setOpenEdit] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [privatePack, setPrivatePack] = useState(false)
+
+  const handleOpenEdit = () => {
+    setOpenEdit(true)
+  }
+  const handleCloseEdit = () => {
+    setOpenEdit(false)
+  }
+  const handleOpenDelete = () => {
+    setOpenDelete(true)
+  }
+  const handleCloseDelete = () => {
+    setOpenDelete(false)
+  }
+
   const dropDownMenu = [
     {
       id: 1,
@@ -27,7 +52,7 @@ export const MyPack = () => {
     {
       id: 2,
       component: (
-        <Button variant={'link'} className={s.buttonDrop}>
+        <Button variant={'link'} className={s.buttonDrop} onClick={handleOpenEdit}>
           <Edit />
           <Typography variant={'caption'}>Edit</Typography>
         </Button>
@@ -36,7 +61,7 @@ export const MyPack = () => {
     {
       id: 3,
       component: (
-        <Button variant={'link'} className={s.buttonDrop}>
+        <Button variant={'link'} className={s.buttonDrop} onClick={handleOpenDelete}>
           <Trash />
           <Typography variant={'caption'}>Delete</Typography>
         </Button>
@@ -128,7 +153,7 @@ export const MyPack = () => {
       </Button>
       <div className={s.headBlock}>
         <div className={s.titleMenu}>
-          <Typography variant={'large'}>Packs list</Typography>
+          <Typography variant={'large'}>My Pack</Typography>
           <DropDownMenuDemo items={dropDownMenu} trigger={<SubMenu />} />
         </div>
         <Button variant={'primary'}>Add New Card</Button>
@@ -147,6 +172,7 @@ export const MyPack = () => {
               Last Updated {sortTable ? <ArrowDown /> : <ArrowUp />}
             </TableElement.HeadCell>
             <TableElement.HeadCell>Grade</TableElement.HeadCell>
+            <TableElement.HeadCell></TableElement.HeadCell>
           </TableElement.Row>
         </TableElement.Head>
         <TableElement.Body>
@@ -157,11 +183,48 @@ export const MyPack = () => {
                 <TableElement.Cell>{el.answer}</TableElement.Cell>
                 <TableElement.Cell>{el.lastDate}</TableElement.Cell>
                 <TableElement.Cell>{el.grade}</TableElement.Cell>
+                <TableElement.Cell>
+                  <div className={s.icons}>
+                    <Edit />
+                    <Trash />
+                  </div>
+                </TableElement.Cell>
               </TableElement.Row>
             )
           })}
         </TableElement.Body>
       </TableElement.Root>
+      <Modal
+        title={'Edite Pack'}
+        showCloseButton={true}
+        open={openEdit}
+        onClose={handleCloseEdit}
+        titleButton={'Save Changes'}
+      >
+        <TextField type={'default'} label={'Name Pack'} placeholder={'name'} />
+        <CheckboxDemo
+          variant={'withText'}
+          label={'Private pack'}
+          checked={privatePack}
+          onChange={() => setPrivatePack(!privatePack)}
+        />
+      </Modal>
+      <Modal
+        title={'Delete Pack'}
+        showCloseButton={true}
+        open={openDelete}
+        onClose={handleCloseDelete}
+        titleButton={'Save Changes'}
+      >
+        <Typography variant={'body1'}>
+          Do you really want to remove{' '}
+          <Typography variant={'subtitle1'} className={s.packName}>
+            Pack Name?
+          </Typography>{' '}
+          <br />
+          All cards will be deleted.
+        </Typography>
+      </Modal>
     </div>
   )
 }
