@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { PagePack } from './page-pack.tsx'
+import { EmptyPack } from './empty-pack.tsx'
 
 const meta = {
   title: 'Page/PagePack',
-  component: PagePack,
+  component: EmptyPack,
   tags: ['autodocs'],
-} satisfies Meta<typeof PagePack>
+} satisfies Meta<typeof EmptyPack>
 
 export default meta
 type Story = StoryObj<typeof meta>
