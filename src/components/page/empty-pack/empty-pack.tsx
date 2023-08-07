@@ -1,11 +1,11 @@
-import { Back } from '../../../common/assets'
+import { Back } from '../../../assets'
 import { Button, Typography } from '../../ui'
 
 import s from './empty-pack.module.scss'
 
 export const EmptyPack = () => {
   return (
-    <div className={s.packListBlock}>
+    <div className={s.emptyPackBlock}>
       <Button variant={'link'} className={s.backButton}>
         <Back />
         Back to Packs List

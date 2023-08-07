@@ -1,4 +1,4 @@
-import { Avatar } from '../../../../common/assets'
+import { Avatar } from '../../../../assets'
 import { Typography } from '../../typography'
 
 import s from './profile-block.module.scss'

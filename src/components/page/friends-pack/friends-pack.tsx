@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ArrowDown, ArrowUp, Back } from '../../../common/assets'
+import { ArrowDown, ArrowUp, Back } from '../../../assets'
 import { Button, TableElement, TextField, Typography } from '../../ui'
 import { Grade } from '../../ui/grade'
 
@@ -91,7 +91,7 @@ export const FriendsPack = () => {
   ]
 
   return (
-    <div className={s.packListBlock}>
+    <div className={s.friendsPackBlock}>
       <Button variant={'link'} className={s.backButton}>
         <Back />
         Back to Packs List

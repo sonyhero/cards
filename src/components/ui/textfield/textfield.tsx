@@ -1,6 +1,6 @@
 import { ChangeEvent, ComponentPropsWithoutRef, forwardRef, KeyboardEvent, useState } from 'react'
 
-import { DeleteIcon, Eye, NotEye, Search } from '../../../common/assets'
+import { DeleteIcon, Eye, NotEye, Search } from '../../../assets'
 import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
