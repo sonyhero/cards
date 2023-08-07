@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 import * as Label from '@radix-ui/react-label'
 import * as Select from '@radix-ui/react-select'
 
-import { SelectArrow } from '../../../common/assets'
+import { SelectArrow } from '../../../assets'
 import { Typography } from '../typography'
 
 import s from './selectRadix.module.scss'

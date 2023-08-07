@@ -1,6 +1,8 @@
 import { FC } from 'react'
 
-import { Logo, Logout, Profile } from '../../../common/assets'
+import { Link } from 'react-router-dom'
+
+import { Avatar, Logo, Logout, Profile } from '../../../assets'
 import { Button } from '../button'
 import { DropDownMenuDemo } from '../dropDownMenu'
 import { Typography } from '../typography'
@@ -36,16 +38,20 @@ export const Header: FC<HeaderProps> = ({ isAuth }) => {
 
   return (
     <div className={s.headerBlock}>
-      <Logo />
-      {!isAuth && <Button variant={'primary'}>Sign In</Button>}
-      {isAuth && (
-        <div className={s.avatar_menu}>
-          <Typography variant={'subtitle1'} className={s.menu_name}>
-            Name
-          </Typography>
-          <DropDownMenuDemo items={dropDownMenu} />
-        </div>
-      )}
+      <div className={s.contentHeader}>
+        <Button as={Link} to="/" variant={'link'} className={s.logo}>
+          <Logo />
+        </Button>
+        {!isAuth && <Button variant={'primary'}>Sign In</Button>}
+        {isAuth && (
+          <div className={s.avatar_menu}>
+            <Typography variant={'subtitle1'} className={s.menu_name}>
+              Name
+            </Typography>
+            <DropDownMenuDemo items={dropDownMenu} trigger={<Avatar />} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

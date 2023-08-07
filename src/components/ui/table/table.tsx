@@ -2,7 +2,7 @@ import { ComponentProps, FC, useState } from 'react'
 
 import { clsx } from 'clsx'
 
-import { ArrowDown, ArrowUp, Edit, Trash, Play } from '../../../common/assets'
+import { ArrowDown, ArrowUp, Edit, Trash, Play } from '../../../assets'
 import { Typography } from '../typography'
 
 import s from './table.module.scss'

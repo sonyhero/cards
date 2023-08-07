@@ -1,9 +1,11 @@
 import { useState } from 'react'
 
-import { ArrowDown, ArrowUp, Edit, Play, Trash } from '../../../common/assets'
+import { Link } from 'react-router-dom'
+
+import { ArrowDown, ArrowUp, Edit, Play, Trash } from '../../../assets'
 import { useDebounce } from '../../../common/hooks/use-debounce.ts'
-import { useCreateDeckMutation, useGetDecksQuery } from '../../../services/decks'
-import { deckSlice } from '../../../services/decks/deck.slice.ts'
+import { cardsSlice } from '../../../services/cards'
+import { useCreateDeckMutation, useGetDecksQuery, decksSlice } from '../../../services/decks'
 import { useAppDispatch, useAppSelector } from '../../../services/store.ts'
 import {
   Button,
@@ -38,11 +40,13 @@ export const PacksList = () => {
 
   const { data } = useGetDecksQuery({
     name: newInitialName,
-    orderBy: 'created-desc',
+    orderBy: sortTable ? 'created-desc' : 'created-asc',
+    itemsPerPage: 20,
   })
+
   const [createDeck] = useCreateDeckMutation()
   const setSearchByName = (event: string) => {
-    dispatch(deckSlice.actions.setSearchByName(event))
+    dispatch(decksSlice.actions.setSearchByName(event))
   }
   const handleCreateClicked = () => {
     createDeck({ name: packName })
@@ -53,6 +57,10 @@ export const PacksList = () => {
   }
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const setCurrentIdToStore = (id: string) => {
+    dispatch(cardsSlice.actions.setCurrentPackId({ id }))
   }
 
   return (
@@ -112,10 +120,19 @@ export const PacksList = () => {
           {data?.items.map(el => {
             return (
               <TableElement.Row key={el.id}>
-                <TableElement.Cell>{el.name}</TableElement.Cell>
+                <TableElement.Cell>
+                  <Button
+                    as={Link}
+                    to="/my-pack"
+                    variant={'link'}
+                    onClick={() => setCurrentIdToStore(el.id)}
+                  >
+                    {el.name}
+                  </Button>
+                </TableElement.Cell>
                 <TableElement.Cell>{el.cardsCount}</TableElement.Cell>
                 <TableElement.Cell>
-                  {new Date(el.updated).toLocaleDateString('ru-RU')}
+                  {new Date(el.created).toLocaleDateString('ru-RU')}
                 </TableElement.Cell>
                 <TableElement.Cell>{el.author.name}</TableElement.Cell>
                 <TableElement.Cell>
@@ -136,6 +153,7 @@ export const PacksList = () => {
         open={open}
         onClose={handleClose}
         titleButton={'Add New Pack'}
+        disableButton={!packName}
         callBack={handleCreateClicked}
       >
         <TextField

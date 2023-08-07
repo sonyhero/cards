@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Star } from '../../../common/assets'
+import { Star } from '../../../assets'
 
 import s from './grade.module.scss'
 
