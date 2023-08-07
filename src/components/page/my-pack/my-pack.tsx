@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ArrowDown, ArrowUp, Back, Edit, Play, SubMenu, Trash } from '../../../assets'
-import { useGetCardsQuery, useGetDeckQuery } from '../../../services/cards/cards.ts'
+import { useGetCardsQuery, useGetDeckQuery } from '../../../services/cards'
 import { useAppSelector } from '../../../services/store.ts'
 import {
   Button,

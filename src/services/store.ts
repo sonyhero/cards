@@ -3,7 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import { baseApi } from './base-api.ts'
 import { cardsSlice } from './cards'
-import { decksSlice } from './decks/decks.slice.ts'
+import { decksSlice } from './decks'
 
 export const store = configureStore({
   reducer: {

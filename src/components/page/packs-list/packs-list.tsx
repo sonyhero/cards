@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 
 import { ArrowDown, ArrowUp, Edit, Play, Trash } from '../../../assets'
 import { useDebounce } from '../../../common/hooks/use-debounce.ts'
-import { cardsSlice } from '../../../services/cards/cards.slice.ts'
-import { useCreateDeckMutation, useGetDecksQuery } from '../../../services/decks'
-import { decksSlice } from '../../../services/decks/decks.slice.ts'
+import { cardsSlice } from '../../../services/cards'
+import { useCreateDeckMutation, useGetDecksQuery, decksSlice } from '../../../services/decks'
 import { useAppDispatch, useAppSelector } from '../../../services/store.ts'
 import {
   Button,

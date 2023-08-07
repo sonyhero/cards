@@ -6,7 +6,7 @@ const initialState = {
   searchByName: '',
 }
 
-export const deckSlice = createSlice({
+export const decksSlice = createSlice({
   name: 'deckSlice',
   initialState,
   reducers: {
