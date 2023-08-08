@@ -4,12 +4,12 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { baseApi } from '../../services/base-api.ts'
 import { cardsSlice } from '../../services/cards'
-import { decksSlice } from '../../services/decks'
+import { deckSlice } from '../../services/decks'
 
 export const storyBookStore = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    [decksSlice.name]: decksSlice.reducer,
+    [deckSlice.name]: deckSlice.reducer,
     [cardsSlice.name]: cardsSlice.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),

@@ -13,10 +13,15 @@ export type CheckBoxProps = {
   disabled?: boolean
   checked?: boolean
   variant: 'default' | 'withText'
-  label?: string
+  checkBoxText?: string
 }
 
-export const CheckboxDemo: FC<CheckBoxProps> = ({ disabled = false, checked, label, onChange }) => {
+export const CheckboxDemo: FC<CheckBoxProps> = ({
+  disabled = false,
+  checked,
+  checkBoxText,
+  onChange,
+}) => {
   return (
     <div className={s.checkBoxBlock}>
       <Label.Root>
@@ -36,7 +41,7 @@ export const CheckboxDemo: FC<CheckBoxProps> = ({ disabled = false, checked, lab
               <CheckIcon className={s.icon} />
             </Checkbox.Indicator>
           </Checkbox.Root>
-          {label}
+          {checkBoxText}
         </Typography>
       </Label.Root>
     </div>
