@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { baseApi } from '../../services/base-api.ts'
 import { cardsSlice } from '../../services/cards'
-import { deckSlice } from '../../services/decks'
+import { deckSlice } from '../../services/decks/deck.slice.ts'
 
 export const storyBookStore = configureStore({
   reducer: {
