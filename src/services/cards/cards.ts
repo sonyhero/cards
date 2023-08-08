@@ -1,9 +1,11 @@
 import { baseApi } from '../base-api.ts'
 
+import { CardsResponse, DeckResponse, GetRequestType } from './types.ts'
+
 const cardsApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getDeck: builder.query<DeckResponse, { id: string }>({
+      getDeck: builder.query<DeckResponse, { id: string | undefined }>({
         query: ({ id }) => ({
           url: `v1/decks/${id}`,
           method: 'GET',
@@ -21,57 +23,4 @@ const cardsApi = baseApi.injectEndpoints({
   },
 })
 
-export type GetRequestType = {
-  id?: string
-  question?: string
-  answer?: string
-  orderBy?: string
-  currentPage?: number
-  itemsPerPage?: number
-}
-
 export const { useGetCardsQuery, useGetDeckQuery } = cardsApi
-
-export type DeckResponse = {
-  author: DeckResponseAuthor
-  id: string
-  userId: string
-  name: string
-  isPrivate: boolean
-  shots: number
-  cover: string
-  rating: number
-  created: string
-  updated: string
-  cardsCount: number
-}
-export type DeckResponseAuthor = {
-  id: string
-  name: string
-}
-
-export type CardsResponse = {
-  items: RootObjectItems[]
-  pagination: RootObjectPagination
-}
-export type RootObjectItems = {
-  id: string
-  deckId: string
-  userId: string
-  question: string
-  answer: string
-  shots: number
-  answerImg: string
-  questionImg: string
-  questionVideo: string
-  answerVideo: string
-  rating: number
-  created: string
-  updated: string
-}
-export type RootObjectPagination = {
-  currentPage: number
-  itemsPerPage: number
-  totalPages: number
-  totalItems: number
-}

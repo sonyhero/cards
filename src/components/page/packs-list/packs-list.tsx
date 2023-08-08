@@ -4,8 +4,14 @@ import { Link } from 'react-router-dom'
 
 import { ArrowDown, ArrowUp, Edit, Play, Trash } from '../../../assets'
 import { useDebounce } from '../../../common/hooks/use-debounce.ts'
+import { useMeQuery } from '../../../services/auth'
 import { cardsSlice } from '../../../services/cards'
-import { useCreateDeckMutation, useGetDecksQuery, decksSlice } from '../../../services/decks'
+import {
+  useCreateDeckMutation,
+  useDeletedDeckMutation,
+  useGetDecksQuery,
+} from '../../../services/decks'
+import { deckSlice } from '../../../services/decks/deck.slice.ts'
 import { useAppDispatch, useAppSelector } from '../../../services/store.ts'
 import {
   Button,
@@ -44,9 +50,11 @@ export const PacksList = () => {
     itemsPerPage: 20,
   })
 
+  const { data: meData } = useMeQuery()
   const [createDeck] = useCreateDeckMutation()
+  const [deleteDeck] = useDeletedDeckMutation()
   const setSearchByName = (event: string) => {
-    dispatch(decksSlice.actions.setSearchByName(event))
+    dispatch(deckSlice.actions.setSearchByName(event))
   }
   const handleCreateClicked = () => {
     createDeck({ name: packName })
@@ -59,9 +67,10 @@ export const PacksList = () => {
     setOpen(false)
   }
 
-  const setCurrentIdToStore = (id: string) => {
-    dispatch(cardsSlice.actions.setCurrentPackId({ id }))
+  const setIsMyPackHandler = (value: boolean) => {
+    dispatch(cardsSlice.actions.setIsMyPack({ isMyPack: value }))
   }
+  const handleDeleteCard = (id: string) => deleteDeck({ id })
 
   return (
     <div className={s.packListBlock}>
@@ -123,9 +132,9 @@ export const PacksList = () => {
                 <TableElement.Cell>
                   <Button
                     as={Link}
-                    to="/my-pack"
+                    to={`/my-pack/${el.id}`}
                     variant={'link'}
-                    onClick={() => setCurrentIdToStore(el.id)}
+                    onClick={() => setIsMyPackHandler(el.author.id === meData?.id)}
                   >
                     {el.name}
                   </Button>
@@ -138,8 +147,12 @@ export const PacksList = () => {
                 <TableElement.Cell>
                   <div className={s.icons}>
                     <Play />
-                    <Edit />
-                    <Trash />
+                    {el.author.id === meData?.id && (
+                      <>
+                        <Edit />
+                        <Trash onClick={() => handleDeleteCard(el.id)} />
+                      </>
+                    )}
                   </div>
                 </TableElement.Cell>
               </TableElement.Row>
@@ -165,7 +178,7 @@ export const PacksList = () => {
         />
         <CheckboxDemo
           variant={'withText'}
-          label={'Private pack'}
+          checkBoxText={'Private pack'}
           checked={privatePack}
           onChange={() => setPrivatePack(!privatePack)}
         />
