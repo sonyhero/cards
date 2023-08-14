@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { Button, Card, ControlledTextField, Typography } from '../../ui'
-
 import s from './forgot-password.module.scss'
 
+import { Button, Card, ControlledTextField, Typography } from '@/components/ui'
 import { useForgotPasswordMutation } from '@/services/auth'
 
 const sigInSchema = z.object({

@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { FriendsPack } from './friends-pack.tsx'
-
-import { BrowserRouterDecorator, ReduxStoreProviderDecorator } from '@/common/utils/decorators.tsx'
+import { BrowserRouterDecorator, ReduxStoreProviderDecorator } from '@/common'
+import { FriendsPack } from '@/components/page/friends-pack/friends-pack.tsx'
 
 const meta = {
   title: 'Page/FriendsPack',

@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { Button, Card, ControlledTextField, Typography } from '../../ui'
-
 import s from './create-new-password.module.scss'
 
+import { Button, Card, ControlledTextField, Typography } from '@/components/ui'
 import { useResetPasswordMutation } from '@/services/auth'
 
 const sigInSchema = z.object({
