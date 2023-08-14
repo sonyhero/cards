@@ -9,11 +9,12 @@ import {
   DialogTitle,
 } from '@radix-ui/react-dialog'
 
-import { Close } from '../../../assets'
 import { Button } from '../button'
 import { Typography } from '../typography'
 
 import s from './modal.module.scss'
+
+import { Close } from '@/assets'
 
 type PropsType = {
   open: boolean

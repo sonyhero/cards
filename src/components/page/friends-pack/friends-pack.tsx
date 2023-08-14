@@ -1,136 +1,82 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { ArrowDown, ArrowUp, Back } from '../../../assets'
-import { Button, TableElement, TextField, Typography } from '../../ui'
-import { Grade } from '../../ui/grade'
+import { Link, useParams } from 'react-router-dom'
+
+import { Button, Pagination, SuperSelect, TextField, Typography } from '../../ui'
+import { Sort } from '../../ui/table/type.ts'
 
 import s from './friends-pack.module.scss'
+import { FriendsTable } from './friends-table'
 
-type TestDataType = {
-  id: number
-  question: string
-  answer: string
-  lastDate: string
-  grade: JSX.Element
-}
+import { Back } from '@/assets'
+import { useGetCardsQuery } from '@/services/cards'
+import { useGetDeckQuery } from '@/services/decks'
+import { useAppSelector } from '@/services/store.ts'
+
 export const FriendsPack = () => {
-  const [sortTable, setSortTable] = useState(false)
-  const changeSort = (status: boolean) => setSortTable(status)
+  const params = useParams<{ id: string }>()
 
-  const testData: TestDataType[] = [
-    {
-      id: 1,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 2,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 3,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 4,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 5,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 6,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 7,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 8,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 9,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-    {
-      id: 10,
-      question: 'How "This" works in JavaScript?',
-      answer: 'This is how "This" works in JavaScript',
-      lastDate: '24.07.2023',
-      grade: <Grade rating={4} />,
-    },
-  ]
+  const itemsPerPage = useAppSelector(state => state.deckSlice.itemsPerPage)
+  const options = useAppSelector(state => state.deckSlice.paginationOptions)
+  const currentPage = useAppSelector(state => state.deckSlice.currentPage)
+
+  const [search, setSearch] = useState('')
+  const [perPage, setPerPage] = useState({ id: 1, value: itemsPerPage })
+  const [page, setPage] = useState(currentPage)
+  const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'desc' })
+
+  const onSetPerPageHandler = (value: number) => {
+    setPerPage({ ...perPage, value })
+  }
+  const sortedString = useMemo(() => {
+    if (!sort) return null
+
+    return `${sort.key}-${sort.direction}`
+  }, [sort])
+
+  const { data } = useGetDeckQuery({
+    id: params.id,
+  })
+  const { data: dataCards } = useGetCardsQuery({
+    id: params.id,
+    orderBy: sortedString,
+    question: search,
+    itemsPerPage: perPage.value,
+    currentPage: page,
+  })
 
   return (
     <div className={s.friendsPackBlock}>
-      <Button variant={'link'} className={s.backButton}>
+      <Button as={Link} to="/" variant={'link'} className={s.backButton}>
         <Back />
         Back to Packs List
       </Button>
       <div className={s.headBlock}>
         <div className={s.titleMenu}>
-          <Typography variant={'large'}>Friend&apos;s Pack</Typography>
+          <Typography variant={'large'}>{data?.name}</Typography>
         </div>
-        <Button variant={'primary'}>Learn to Pack</Button>
+        <Button as={Link} to={`/learn-pack/${params.id}`} variant={'primary'}>
+          Learn to Pack
+        </Button>
       </div>
-      <TextField type={'searchType'} className={s.textField} />
-      <TableElement.Root>
-        <TableElement.Head>
-          <TableElement.Row>
-            <TableElement.HeadCell>Question</TableElement.HeadCell>
-            <TableElement.HeadCell>Answer</TableElement.HeadCell>
-            <TableElement.HeadCell
-              onClick={() => {
-                changeSort(!sortTable)
-              }}
-            >
-              Last Updated {sortTable ? <ArrowDown /> : <ArrowUp />}
-            </TableElement.HeadCell>
-            <TableElement.HeadCell>Grade</TableElement.HeadCell>
-          </TableElement.Row>
-        </TableElement.Head>
-        <TableElement.Body>
-          {testData.map(el => {
-            return (
-              <TableElement.Row key={el.id}>
-                <TableElement.Cell>{el.question}</TableElement.Cell>
-                <TableElement.Cell>{el.answer}</TableElement.Cell>
-                <TableElement.Cell>{el.lastDate}</TableElement.Cell>
-                <TableElement.Cell>{el.grade}</TableElement.Cell>
-              </TableElement.Row>
-            )
-          })}
-        </TableElement.Body>
-      </TableElement.Root>
+      <TextField
+        value={search}
+        onChangeText={e => setSearch(e)}
+        type={'searchType'}
+        className={s.textField}
+      />
+      <FriendsTable sort={sort} setSort={setSort} dataCards={dataCards} />
+      <div className={s.pagination}>
+        <Pagination count={dataCards?.pagination.totalPages} page={page} onChange={setPage} />
+        <Typography variant={'body2'}>Показать</Typography>
+        <SuperSelect
+          options={options}
+          defaultValue={perPage.value}
+          onValueChange={onSetPerPageHandler}
+          classname={s.selectPagination}
+        />
+        <Typography variant={'body2'}>На странице</Typography>
+      </div>
     </div>
   )
 }

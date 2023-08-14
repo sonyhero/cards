@@ -1,16 +1,23 @@
-import { Avatar } from '../../../../assets'
-import { Typography } from '../../typography'
+import { FC } from 'react'
+
+import { AvatarDemo } from '../../avatar'
 
 import s from './profile-block.module.scss'
 
-export const ProfileBlock = () => {
+import { Typography } from '@/components/ui'
+import { ResponseUserType } from '@/services/auth'
+
+type PropsType = {
+  data?: ResponseUserType | null
+}
+export const ProfileBlock: FC<PropsType> = ({ data }) => {
   return (
     <div className={s.infoBlock}>
-      <Avatar />
+      <AvatarDemo src={data?.avatar} name={data?.name} />
       <div className={s.info}>
-        <Typography variant={'subtitle2'}>Name</Typography>
+        <Typography variant={'subtitle2'}>{data?.name}</Typography>
         <Typography variant={'caption'} className={s.email}>
-          egor.belozerov@mail.ru
+          {data?.email}
         </Typography>
       </div>
     </div>

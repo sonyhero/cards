@@ -1,2 +1,2 @@
-export * from './controlled-checkBox'
-export * from './controlled-textField'
+export * from './controlled-checkbox'
+export * from './controlled-text-field'

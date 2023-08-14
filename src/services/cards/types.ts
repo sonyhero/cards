@@ -2,26 +2,9 @@ export type GetRequestType = {
   id?: string
   question?: string
   answer?: string
-  orderBy?: string
+  orderBy: string | null
   currentPage?: number
   itemsPerPage?: number
-}
-export type DeckResponse = {
-  author: DeckResponseAuthor
-  id: string
-  userId: string
-  name: string
-  isPrivate: boolean
-  shots: number
-  cover: string
-  rating: number
-  created: string
-  updated: string
-  cardsCount: number
-}
-export type DeckResponseAuthor = {
-  id: string
-  name: string
 }
 
 export type CardsResponse = {
@@ -39,7 +22,7 @@ export type RootObjectItems = {
   questionImg: string
   questionVideo: string
   answerVideo: string
-  rating: number
+  grade: number
   created: string
   updated: string
 }
