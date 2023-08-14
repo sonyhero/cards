@@ -19,8 +19,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
 
-    /* Paths */
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
