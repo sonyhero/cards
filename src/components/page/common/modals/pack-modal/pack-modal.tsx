@@ -1,5 +1,4 @@
-import { CheckboxDemo, TextField } from '../../../../ui'
-
+import { CheckboxDemo, TextField } from '@/components/ui'
 import { modalActions, selectSettings } from '@/services/modal'
 import { useAppDispatch, useAppSelector } from '@/services/store.ts'
 

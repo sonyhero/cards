@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { SignUp } from './sign-up.tsx'
 
-import { BrowserRouterDecorator, ReduxStoreProviderDecorator } from '@/common/utils/decorators.tsx'
+import { BrowserRouterDecorator, ReduxStoreProviderDecorator } from '@/common'
 
 const meta = {
   title: 'Auth/SignUp',

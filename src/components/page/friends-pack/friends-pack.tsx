@@ -2,13 +2,12 @@ import { useMemo, useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
 
-import { Button, Pagination, SuperSelect, TextField, Typography } from '../../ui'
-import { Sort } from '../../ui/table/type.ts'
-
 import s from './friends-pack.module.scss'
 import { FriendsTable } from './friends-table'
 
 import { Back } from '@/assets'
+import { Button, Pagination, SuperSelect, TextField, Typography } from '@/components/ui'
+import { Sort } from '@/components/ui/table/type.ts'
 import { useGetCardsQuery } from '@/services/cards'
 import { useGetDeckQuery } from '@/services/decks'
 import { useAppSelector } from '@/services/store.ts'

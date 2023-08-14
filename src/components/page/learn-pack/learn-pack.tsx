@@ -2,11 +2,10 @@ import { FC, useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
 
-import { Button, Card, RadioGroupDemo, Typography } from '../../ui'
-
 import s from './learn-pack.module.scss'
 
 import { Back } from '@/assets'
+import { Button, Card, RadioGroupDemo, Typography } from '@/components/ui'
 import { useGetDeckQuery, useLearnDeckQuery, useUpdateGradeCardMutation } from '@/services/decks'
 
 export const LearnPack = () => {

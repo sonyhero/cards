@@ -2,14 +2,20 @@ import { useMemo, useState } from 'react'
 
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { Button, DropDownMenuDemo, Pagination, SuperSelect, TextField, Typography } from '../../ui'
-import { Sort } from '../../ui/table/type.ts'
-import { TableModal } from '../common/modals'
-
-import { MyPackTable } from './my-pack-table/my-pack-table.tsx'
 import s from './my-pack.module.scss'
 
 import { Back, Edit, Play, SubMenu, Trash } from '@/assets'
+import { TableModal } from '@/components/page/common/modals'
+import { MyPackTable } from '@/components/page/my-pack/my-pack-table/my-pack-table.tsx'
+import {
+  Button,
+  DropDownMenuDemo,
+  Pagination,
+  SuperSelect,
+  TextField,
+  Typography,
+} from '@/components/ui'
+import { Sort } from '@/components/ui/table/type.ts'
 import {
   useCreateCardMutation,
   useDeleteCardMutation,
