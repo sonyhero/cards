@@ -11,7 +11,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const ShowSlider: Story = {
+export const GradeStory: Story = {
   args: {
     maxRating: 0,
     rating: 0,

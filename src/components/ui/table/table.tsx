@@ -2,10 +2,11 @@ import { ComponentProps, FC, useState } from 'react'
 
 import { clsx } from 'clsx'
 
-import { ArrowDown, ArrowUp, Edit, Trash, Play } from '../../../assets'
 import { Typography } from '../typography'
 
 import s from './table.module.scss'
+
+import { ArrowDown, ArrowUp, Edit, Trash, Play } from '@/assets'
 
 export type RootProps = ComponentProps<'table'>
 

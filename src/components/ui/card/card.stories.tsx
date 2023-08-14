@@ -18,7 +18,7 @@ export const ShowCard: Story = {
     children: (
       <>
         <a href="">Ссылка</a>
-        <Button variant={'primary'}>Button</Button>
+        <Button variant={'primary'} />
       </>
     ),
   },

@@ -2,8 +2,6 @@ import { FC, ReactNode } from 'react'
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
-import { Avatar } from '../../../assets'
-
 import s from './dropDownMenu.module.scss'
 
 type DropDownMenuPropsType = {
@@ -14,10 +12,10 @@ type DropDownMenuPropsType = {
   }[]
 }
 
-export const DropDownMenuDemo: FC<DropDownMenuPropsType> = ({ items }) => {
+export const DropDownMenuDemo: FC<DropDownMenuPropsType> = ({ items, trigger }) => {
   const itemsForRender = items?.map((item, index) => {
     return (
-      <>
+      <div key={index}>
         {index === items?.length - 1 ? (
           <DropdownMenu.Item className={s.dropdownMenuItem}>{item.component}</DropdownMenu.Item>
         ) : (
@@ -26,7 +24,7 @@ export const DropDownMenuDemo: FC<DropDownMenuPropsType> = ({ items }) => {
             <DropdownMenu.Separator className={s.dropdownMenuSeparator} />
           </>
         )}
-      </>
+      </div>
     )
   })
 
@@ -34,7 +32,7 @@ export const DropDownMenuDemo: FC<DropDownMenuPropsType> = ({ items }) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button className={s.iconButton} aria-label="Customise options">
-          <Avatar />
+          {trigger}
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>

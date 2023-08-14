@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Logout } from '../../../assets'
-
 import { Button } from './'
+
+import { Logout } from '@/assets'
 
 const meta = {
   title: 'Components/Buttons',

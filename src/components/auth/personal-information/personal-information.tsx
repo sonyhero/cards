@@ -5,10 +5,12 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
-import { AvatarInCard, Edit, Logout } from '../../../assets'
 import { Button, Card, ControlledTextField, Typography } from '../../ui'
+import { AvatarDemo } from '../../ui/avatar'
 
 import s from './personalInformation.module.scss'
+
+import { Edit, Logout } from '@/assets'
 
 const sigInSchema = z.object({
   nickName: z.string().trim().min(1),
@@ -22,7 +24,7 @@ type PropsType = {
   avatar?: string
 }
 
-export const PersonalInformation: FC<PropsType> = ({ name, email }) => {
+export const PersonalInformation: FC<PropsType> = ({ name, email, avatar }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const { control, handleSubmit } = useForm<SignInFormShem>({
     resolver: zodResolver(sigInSchema),
@@ -38,7 +40,7 @@ export const PersonalInformation: FC<PropsType> = ({ name, email }) => {
       </Typography>
       <div className={s.avatarBlock}>
         <div className={s.avatar}>
-          <AvatarInCard />
+          <AvatarDemo src={avatar} name={name} className={s.avatar} />
           {!editMode && (
             <div className={s.avatarEdit}>
               <Edit />

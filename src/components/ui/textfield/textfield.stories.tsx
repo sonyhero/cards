@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 
 export const TextFieldDefault: Story = {
   args: {
-    label: 'label',
+    label: 'Default',
     placeholder: 'Default',
     value: '',
     type: 'default',
@@ -24,42 +24,44 @@ export const TextFieldDefault: Story = {
 export const TextFieldDefaultError: Story = {
   args: {
     placeholder: 'Default',
-    value: '',
     type: 'default',
+    value: '',
     disableValue: false,
     errorMessage: 'Error!',
   },
 }
 export const TextFieldPassword: Story = {
   args: {
+    label: 'Password',
     placeholder: 'Password',
-    value: '',
     type: 'password',
+    value: 'Password',
     disableValue: false,
   },
 }
 export const TextFieldPasswordError: Story = {
   args: {
     placeholder: 'Password',
-    value: '',
     type: 'password',
+    value: 'Some Error',
     disableValue: false,
     errorMessage: 'Error!',
   },
 }
 export const TextFieldSearch: Story = {
   args: {
+    label: 'Search',
     placeholder: 'Search',
-    value: '',
     type: 'searchType',
+    value: '',
     disableValue: false,
   },
 }
 export const TextFieldSearchError: Story = {
   args: {
     placeholder: 'Search',
-    value: '',
     type: 'searchType',
+    value: '',
     disableValue: false,
     errorMessage: 'Error!',
   },

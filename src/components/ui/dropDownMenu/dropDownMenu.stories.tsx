@@ -1,12 +1,14 @@
 import { Meta } from '@storybook/react'
 
-import { Avatar, Edit, Logout, Play, Profile, SubMenu, Trash } from '../../../assets'
 import s from '../../page/friends-pack/friends-pack.module.scss'
+import { AvatarDemo } from '../avatar'
 import { Button } from '../button'
-import { ProfileBlock } from '../header'
+import { ProfileBlock } from '../header/profile-block'
 import { Typography } from '../typography'
 
 import { DropDownMenuDemo } from './dropDownMenu.tsx'
+
+import { Edit, Logout, Play, Profile, SubMenu, Trash } from '@/assets'
 
 const meta = {
   title: 'Components/DropDownMenu',
@@ -15,6 +17,7 @@ const meta = {
 } satisfies Meta<typeof DropDownMenuDemo>
 
 export default meta
+
 export const DropdownMenuFirstVariant = () => {
   const dropDownMenu = [
     {
@@ -71,5 +74,5 @@ export const DropdownMenuSecondVariant = () => {
     },
   ]
 
-  return <DropDownMenuDemo items={dropDownMenu} trigger={<Avatar />} />
+  return <DropDownMenuDemo items={dropDownMenu} trigger={<AvatarDemo name={'A'} src={''} />} />
 }

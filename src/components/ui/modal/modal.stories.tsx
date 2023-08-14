@@ -13,7 +13,6 @@ const meta = {
 } satisfies Meta<typeof Modal>
 
 export default meta
-// type Story = StoryObj<typeof meta>
 
 export const ModalDemo = () => {
   const [open, setOpen] = useState(false)

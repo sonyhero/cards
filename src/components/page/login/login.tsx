@@ -1,24 +1,27 @@
-import { useEffect } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
-import { useNavigate } from 'react-router-dom'
-
-import { useLoginMutation, useMeQuery } from '../../../services/auth'
 import { SignIn } from '../../auth'
+
+import { useLoginMutation, useMeQuery } from '@/services/auth'
 
 export const Login = () => {
   const [login] = useLoginMutation()
-  const { data } = useMeQuery()
+  const { data, isLoading } = useMeQuery()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!data) return
+  const loginHandler = (data: any) => {
+    login(data)
+      .unwrap()
+      .then(() => {
+        navigate('/')
+      })
+  }
 
-    navigate('/')
-  }, [data])
+  if (isLoading) return <div>...Loading</div>
 
-  return (
-    <>
-      <SignIn onSubmit={login} />
-    </>
-  )
+  if (data) {
+    return <Navigate to={'/'} />
+  }
+
+  return <SignIn onSubmit={loginHandler} />
 }

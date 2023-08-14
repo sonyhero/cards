@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { BrowserRouterDecorator } from '../../../common/utils/decorators.tsx'
-
-import { PersonalInformation } from './personal-information.tsx'
+import { BrowserRouterDecorator, ReduxStoreProviderDecorator } from '@/common/utils/decorators.tsx'
+import { PersonalInformation } from '@/components/auth'
 
 const meta = {
   title: 'Auth/PersonalInformation',
   component: PersonalInformation,
   tags: ['autodocs'],
-  decorators: [BrowserRouterDecorator],
+  decorators: [BrowserRouterDecorator, ReduxStoreProviderDecorator],
 } satisfies Meta<typeof PersonalInformation>
 
 export default meta
