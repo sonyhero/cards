@@ -3,8 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, ControlledCheckbox, ControlledTextField } from '../../ui'
 import s from '../sign-in/sign-in.module.scss'
+
+import { Button, ControlledCheckbox, ControlledTextField } from '@/components/ui'
 
 const loginSchema = z.object({
   email: z.string().email(),
