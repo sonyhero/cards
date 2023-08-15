@@ -1,10 +1,9 @@
 import { PersonalInformation } from '@/components/auth'
-import { useLogoutMutation, useMeQuery, useUpdateProfileMutation } from '@/services/auth'
+import { useMeQuery, useUpdateProfileMutation } from '@/services/auth'
 
 export const Profile = () => {
   const { data } = useMeQuery()
   const [update] = useUpdateProfileMutation()
-  const [logout] = useLogoutMutation()
 
   const onSaveChanges = (value: string) => {
     const form = new FormData()
@@ -17,8 +16,10 @@ export const Profile = () => {
     <PersonalInformation
       name={data?.name}
       email={data?.email}
+      avatar={data?.avatar}
       update={onSaveChanges}
-      logout={logout}
+      isEmailVer={data?.isEmailVerified}
+      userId={data!.id}
     />
   )
 }
