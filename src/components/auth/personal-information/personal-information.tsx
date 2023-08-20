@@ -145,7 +145,7 @@ export const PersonalInformation: FC<PropsType> = ({
               {email}
             </Typography>
             {!isEmailVer && (
-              <Button variant={'primary'} onClick={verifyEmail}>
+              <Button className={s.verify} variant={'primary'} onClick={verifyEmail}>
                 Verify email
               </Button>
             )}
