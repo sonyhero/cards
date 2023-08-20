@@ -13,7 +13,7 @@ import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } fro
 const sigInSchema = z.object({
   email: z.string().email(),
   password: z.string().min(3),
-  rememberMe: z.boolean().default(false),
+  rememberMe: z.boolean().default(true),
 })
 
 type SignInFormShem = z.infer<typeof sigInSchema>
@@ -23,6 +23,9 @@ type PropsType = {
 }
 export const SignIn: FC<PropsType> = ({ onSubmit }) => {
   const { control, handleSubmit } = useForm<SignInFormShem>({
+    defaultValues: {
+      rememberMe: true,
+    },
     resolver: zodResolver(sigInSchema),
   })
   const handleSubmitForm = handleSubmit(onSubmit)
