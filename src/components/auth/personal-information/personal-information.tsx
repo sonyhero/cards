@@ -1,8 +1,9 @@
-import { FC, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
 import s from './personalInformation.module.scss'
@@ -10,26 +11,71 @@ import s from './personalInformation.module.scss'
 import { Edit, Logout } from '@/assets'
 import { Button, Card, ControlledTextField, Typography } from '@/components/ui'
 import { AvatarDemo } from '@/components/ui/avatar'
+import {
+  useLogoutMutation,
+  useResendVerificationEmailMutation,
+  useUpdateProfileMutation,
+} from '@/services/auth'
 
 const sigInSchema = z.object({
-  nickName: z.string().trim().min(1),
+  name: z.string().trim().min(1),
 })
 
 type SignInFormShem = z.infer<typeof sigInSchema>
 
 type PropsType = {
-  name: string
-  email: string
+  name?: string
+  email?: string
   avatar?: string
+  update: (value: string) => void
+  isEmailVer?: boolean
+  userId: string
 }
 
-export const PersonalInformation: FC<PropsType> = ({ name, email, avatar }) => {
+export const PersonalInformation: FC<PropsType> = ({
+  name,
+  email,
+  avatar,
+  update,
+  userId,
+  isEmailVer,
+}) => {
   const [editMode, setEditMode] = useState<boolean>(false)
+  const [updatePhoto] = useUpdateProfileMutation()
+  const [logout] = useLogoutMutation()
+  const [resendVerEmail] = useResendVerificationEmailMutation()
+
   const { control, handleSubmit } = useForm<SignInFormShem>({
     resolver: zodResolver(sigInSchema),
   })
+
+  const mainPhotoSelected = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length) {
+      const formData = new FormData()
+
+      formData.append('avatar', event.target.files[0])
+      updatePhoto(formData)
+    }
+  }
   const onSubmit = (data: SignInFormShem) => {
-    console.log(data)
+    update(data.name)
+  }
+
+  const logoutHandler = () => {
+    logout()
+      .unwrap()
+      .then(() => toast.success('Всего хорошего'))
+      .catch(() => toast.error('Что-то пошло не так'))
+  }
+
+  const verifyEmail = () => {
+    resendVerEmail({
+      userId,
+      html: `<h1>Hi, ##name##</h1><p>Click <a href="https://flaskcards-project.vercel.app/confirm-email/##token##">here</a> to verify your password</p>`,
+    })
+      .unwrap()
+      .then(() => toast.success(`Сообщение отправлено по адресу ${email}`))
+      .catch(() => toast.error('Some error'))
   }
 
   return (
@@ -41,28 +87,42 @@ export const PersonalInformation: FC<PropsType> = ({ name, email, avatar }) => {
         <div className={s.avatar}>
           <AvatarDemo src={avatar} name={name} className={s.avatar} />
           {!editMode && (
-            <div className={s.avatarEdit}>
-              <Edit />
-            </div>
+            <label htmlFor="mainPhotoInput">
+              <div className={s.avatarEdit}>
+                <Edit />
+              </div>
+              <div className={s.inputContainer}>
+                <input
+                  type={'file'}
+                  id="mainPhotoInput"
+                  onChange={mainPhotoSelected}
+                  className={s.mainPhotoInput}
+                />
+              </div>
+            </label>
           )}
         </div>
       </div>
       {editMode ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <ControlledTextField
-            name={'nickName'}
-            label={'Nickname'}
+            name={'name'}
+            label={'Name'}
             defaultValue={name}
             type={'default'}
             control={control}
             className={s.editNickName}
-            placeholder={'Nickname'}
+            placeholder={'Name'}
           />
           <Button
             fullWidth={true}
             className={s.submit}
             type="submit"
-            onClick={() => setEditMode(false)}
+            onClick={() =>
+              setTimeout(() => {
+                setEditMode(false)
+              }, 0)
+            }
           >
             Save Changes
           </Button>
@@ -73,12 +133,31 @@ export const PersonalInformation: FC<PropsType> = ({ name, email, avatar }) => {
             <Typography variant={'h1'} className={s.name}>
               {name}
             </Typography>
-            <Edit className={s.changeName} onClick={() => setEditMode(true)} />
+            <Edit
+              className={s.changeName}
+              onClick={() => {
+                setEditMode(true)
+              }}
+            />
           </div>
-          <Typography variant={'body2'} as={'span'} className={s.email}>
-            {email}
-          </Typography>
-          <Button as={Link} to="/sign-up" variant={'secondary'} className={s.logout}>
+          <div className={s.emailBlock} style={isEmailVer ? { marginBottom: '20px' } : {}}>
+            <Typography variant={'body2'} as={'span'} className={s.email}>
+              {email}
+            </Typography>
+            {!isEmailVer && (
+              <Button className={s.verify} variant={'primary'} onClick={verifyEmail}>
+                Verify email
+              </Button>
+            )}
+          </div>
+
+          <Button
+            as={Link}
+            to="/login"
+            variant={'secondary'}
+            className={s.logout}
+            onClick={logoutHandler}
+          >
             <Logout />
             <Typography variant={'subtitle2'}>Logout</Typography>
           </Button>

@@ -16,6 +16,11 @@ import { Login } from './components/page/login/login.tsx'
 import { MyPack } from './components/page/my-pack'
 import { useMeQuery } from './services/auth'
 
+import { ConfirmationEmail } from '@/components/auth/confirmation-email'
+import { ErrorPage } from '@/components/page/error-page'
+import { Profile } from '@/components/page/profile/profile.tsx'
+import { Loader } from '@/components/ui/loader/loader.tsx'
+
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
@@ -36,6 +41,10 @@ const publicRoutes: RouteObject[] = [
   {
     path: '/check-email/:email',
     element: <CheckEmail />,
+  },
+  {
+    path: '/confirm-email/:code',
+    element: <ConfirmationEmail />,
   },
 ]
 
@@ -60,15 +69,25 @@ const privateRoutes: RouteObject[] = [
     path: '/learn-pack/:id',
     element: <LearnPack />,
   },
+  {
+    path: '/profile',
+    element: <Profile />,
+  },
 ]
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <PrivateRoutes />,
+
         children: privateRoutes,
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
       },
       ...publicRoutes,
     ],
@@ -78,7 +97,7 @@ const router = createBrowserRouter([
 function PrivateRoutes() {
   const { data, isLoading } = useMeQuery()
 
-  if (isLoading) return <div>...Loading</div>
+  if (isLoading) return <Loader />
 
   return data ? <Outlet /> : <Navigate to="/login" />
 }

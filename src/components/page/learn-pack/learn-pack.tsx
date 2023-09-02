@@ -28,44 +28,50 @@ export const LearnPack = () => {
     <div className={s.learnPackPage}>
       <Button as={Link} to="/" variant={'link'} className={s.backButton}>
         <Back />
-        Back to Packs List
+        Back to PackList
       </Button>
-      {deck?.cardsCount ? (
-        <Card className={s.cardBlock}>
-          <Typography variant={'large'} className={s.title}>
-            Learn &quot;{deck?.name}&quot;
-          </Typography>
-          <Typography variant={'subtitle1'}>
-            Question:{' '}
-            <Typography variant={'body1'} className={s.question}>
-              {randomCard?.question}
-            </Typography>
-          </Typography>
-          <Typography variant={'body2'} className={s.info}>
-            Количество попыток ответов на вопрос: {randomCard?.shots}
-          </Typography>
-          {!showAnswer ? (
-            <Button variant={'primary'} onClick={() => setShowAnswer(!showAnswer)}>
-              Show Answer
-            </Button>
-          ) : (
-            <AnswerPage answer={randomCard?.answer} setNewQuestion={updateCardGradeHandler} />
-          )}
-        </Card>
-      ) : (
-        <Typography variant={'large'} className={s.error}>
-          На данный момент владелец колоды не создал карточки
+      <Card className={s.cardBlock}>
+        <Typography variant={'large'} className={s.title}>
+          Learn &quot;{deck?.name}&quot;
         </Typography>
-      )}
+        <Typography variant={'subtitle1'}>
+          Question:{' '}
+          <Typography variant={'body1'} className={s.question}>
+            {randomCard?.question}
+          </Typography>
+          {randomCard?.questionImg && (
+            <img
+              src={randomCard?.questionImg}
+              className={s.questionImg}
+              alt={'картинка для вопроса'}
+            />
+          )}
+        </Typography>
+        <Typography variant={'body2'} className={s.info}>
+          Количество попыток ответов на вопрос: {randomCard?.shots}
+        </Typography>
+        {!showAnswer ? (
+          <Button variant={'primary'} onClick={() => setShowAnswer(!showAnswer)}>
+            Show Answer
+          </Button>
+        ) : (
+          <AnswerPage
+            answer={randomCard?.answer}
+            answerImg={randomCard?.answerImg}
+            setNewQuestion={updateCardGradeHandler}
+          />
+        )}
+      </Card>
     </div>
   )
 }
 
 type PropsType = {
   answer?: string
+  answerImg?: string
   setNewQuestion: (grade: number) => void
 }
-const AnswerPage: FC<PropsType> = ({ answer, setNewQuestion }) => {
+const AnswerPage: FC<PropsType> = ({ answer, setNewQuestion, answerImg }) => {
   const [value, setValue] = useState(1)
   const options = [
     { id: 1, value: 'Did not know' },
@@ -85,6 +91,7 @@ const AnswerPage: FC<PropsType> = ({ answer, setNewQuestion }) => {
         <Typography variant={'body1'} className={s.answer}>
           {answer}
         </Typography>
+        {answerImg && <img src={answerImg} className={s.questionImg} alt={'картинка для ответа'} />}
       </Typography>
       <Typography variant={'subtitle1'} className={s.grade}>
         Rate yourself:

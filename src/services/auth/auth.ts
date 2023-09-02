@@ -77,6 +77,30 @@ const authApi = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Me'],
       }),
+      updateProfile: builder.mutation<ResponseUserType, FormData>({
+        query: body => ({
+          url: 'v1/auth/me',
+          method: 'PATCH',
+          body: body,
+        }),
+        invalidatesTags: ['Me'],
+      }),
+      verificationEmail: builder.mutation<void, { code: string | undefined }>({
+        query: ({ code }) => ({
+          url: 'v1/auth/verify-email',
+          method: 'POST',
+          body: { code },
+        }),
+        invalidatesTags: ['Me'],
+      }),
+      resendVerificationEmail: builder.mutation<void, { userId: string; html: string }>({
+        query: ({ userId, html }) => ({
+          url: 'v1/auth/resend-verification-email',
+          method: 'POST',
+          body: { userId, html },
+        }),
+        invalidatesTags: ['Me'],
+      }),
     }
   },
 })
@@ -88,6 +112,9 @@ export const {
   useSignUpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useUpdateProfileMutation,
+  useResendVerificationEmailMutation,
+  useVerificationEmailMutation,
 } = authApi
 
 /*

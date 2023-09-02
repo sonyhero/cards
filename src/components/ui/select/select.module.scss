@@ -25,7 +25,7 @@
 
   &:focus,
   &:focus-visible {
-    border: transparent;
+    border: 1px solid transparent;
     outline: 2px solid var(--color-info-700);
   }
 

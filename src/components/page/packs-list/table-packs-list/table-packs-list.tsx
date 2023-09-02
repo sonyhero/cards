@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import s from './table-packs-list.module.scss'
 
@@ -67,10 +68,16 @@ export const TablePacksList: FC<PropsType> = ({
     setIsMyPackHandler(authorId === authData?.id)
   }
 
-  const onEditHandler = (name: string, cardId: string, isPrivate: boolean) => {
+  const onEditHandler = (
+    name: string,
+    cardId: string,
+    isPrivate: boolean,
+    img: string | undefined
+  ) => {
     dispatch(modalActions.setOpenModal('editPack'))
-    dispatch(modalActions.setPrivatePack(isPrivate))
     dispatch(modalActions.setPackName(name))
+    dispatch(modalActions.setPrivatePack(isPrivate))
+    dispatch(modalActions.setEditImg(img))
     setCardId(cardId)
   }
 
@@ -103,6 +110,7 @@ export const TablePacksList: FC<PropsType> = ({
                   onClick={() => onClickNameDeckHandler(el.author.id)}
                   className={s.nameOfDeckButton}
                 >
+                  {el.cover && <img className={s.nameImg} src={el.cover} alt="img" />}
                   {el.name}
                 </Button>
               </TableElement.Cell>
@@ -113,15 +121,19 @@ export const TablePacksList: FC<PropsType> = ({
               <TableElement.Cell>{el.author.name}</TableElement.Cell>
               <TableElement.Cell>
                 <div className={s.icons}>
-                  <Link to={`/learn-pack/${el.id}`}>
-                    <Play className={s.icon} />
-                  </Link>
+                  {el.cardsCount ? (
+                    <Link to={`/learn-pack/${el.id}`}>
+                      <Play className={s.icon} />
+                    </Link>
+                  ) : (
+                    <Play className={s.icon} onClick={() => toast.error('No cart')} />
+                  )}
                   {el.author.id === authData?.id && (
                     <>
                       <Edit
                         className={s.icon}
                         onClick={() => {
-                          onEditHandler(el.name, el.id, el.isPrivate)
+                          onEditHandler(el.name, el.id, el.isPrivate, el.cover)
                         }}
                       />
                       <Trash

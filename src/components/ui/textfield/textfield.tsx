@@ -1,10 +1,11 @@
 import { ChangeEvent, KeyboardEvent, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
-import { DeleteIcon, Eye, NotEye, Search } from '../../../assets'
 import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
 import s from './textfield.module.scss'
+
+import { DeleteIcon, Eye, NotEye, Search } from '@/assets'
 
 export type TextFieldProps = {
   type: 'default' | 'password' | 'searchType'
@@ -20,19 +21,22 @@ export type TextFieldProps = {
 } & ComponentPropsWithoutRef<'input'>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({
-    errorMessage,
-    label,
-    placeholder = 'Some text',
-    type = 'default',
-    disableValue = false,
-    value,
-    onEnter,
-    onSearchClear,
-    onChangeText,
-    className,
-    ...restProps
-  }) => {
+  (
+    {
+      errorMessage,
+      label,
+      placeholder = 'Some text',
+      type = 'default',
+      disableValue = false,
+      value,
+      onEnter,
+      onSearchClear,
+      onChangeText,
+      className,
+      ...restProps
+    },
+    ref
+  ) => {
     const [showPassword, setShowPassword] = useState(false)
 
     const finalType = getType(type, showPassword)
@@ -75,7 +79,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               type={finalType}
               disabled={disableValue}
               onChange={onChangeHandler}
-              onKeyPress={onKeyPressCallback}
+              onKeyDown={onKeyPressCallback}
+              ref={ref}
               style={inputStyle(type)}
               value={value}
               {...restProps}

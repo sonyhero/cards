@@ -1,6 +1,6 @@
 .block {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
 
   width: 26.5rem;
   height: auto;
@@ -28,6 +28,17 @@
       margin-bottom: 0.75rem;
 
       font-size: calc(6rem * 0.8);
+
+      .mainPhotoInput {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 10px;
+        height: 10px;
+
+        opacity: 0;
+      }
 
       .avatarEdit {
         cursor: pointer;
@@ -77,9 +88,18 @@
       }
     }
 
-    .email {
-      margin-bottom: 0.81rem;
-      color: var(--color-dark-100);
+    .emailBlock {
+      display: flex;
+      flex-direction: column;
+
+      .verify {
+        margin-bottom: 2.56rem;
+      }
+
+      .email {
+        margin-bottom: 2.56rem;
+        color: var(--color-dark-100);
+      }
     }
 
     .logout {

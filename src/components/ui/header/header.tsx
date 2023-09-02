@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import s from './header.module.scss'
 
@@ -18,6 +19,9 @@ export const Header: FC<HeaderProps> = ({ data }) => {
 
   const logoutHandler = () => {
     logout()
+      .unwrap()
+      .then(() => toast.success('Всего хорошего'))
+      .catch(() => toast.error('Что-то пошло не так'))
   }
 
   const dropDownMenu = [
@@ -25,7 +29,7 @@ export const Header: FC<HeaderProps> = ({ data }) => {
     {
       id: 2,
       component: (
-        <Button variant={'link'} className={s.buttonDrop}>
+        <Button as={Link} to={'/profile'} variant={'link'} className={s.buttonDrop}>
           <Profile />
           <Typography variant={'caption'}>My Profile</Typography>
         </Button>
@@ -51,9 +55,11 @@ export const Header: FC<HeaderProps> = ({ data }) => {
         {!data && <Button variant={'primary'}>Sign In</Button>}
         {data && (
           <div className={s.avatar_menu}>
-            <Typography variant={'subtitle1'} className={s.menu_name}>
-              {data.name}
-            </Typography>
+            <Link to={`/profile`} className={s.link}>
+              <Typography variant={'subtitle1'} className={s.menu_name}>
+                {data.name}
+              </Typography>
+            </Link>
             <DropDownMenuDemo
               items={dropDownMenu}
               trigger={<AvatarDemo src={data.avatar} name={data.name} />}

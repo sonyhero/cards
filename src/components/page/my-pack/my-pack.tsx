@@ -1,11 +1,16 @@
 import { useMemo, useState } from 'react'
 
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import s from './my-pack.module.scss'
 
 import { Back, Edit, Play, SubMenu, Trash } from '@/assets'
-import { TableModal } from '@/components/page/common/modals'
+import {
+  AddEditCardModal,
+  AddEditPackModal,
+  DeletePackCardModal,
+} from '@/components/page/common/modals'
 import { MyPackTable } from '@/components/page/my-pack/my-pack-table/my-pack-table.tsx'
 import {
   Button,
@@ -15,6 +20,7 @@ import {
   TextField,
   Typography,
 } from '@/components/ui'
+import { Loader } from '@/components/ui/loader/loader.tsx'
 import { Sort } from '@/components/ui/table/type.ts'
 import {
   useCreateCardMutation,
@@ -23,25 +29,31 @@ import {
   useGetCardsQuery,
 } from '@/services/cards'
 import { useDeletedDeckMutation, useGetDeckQuery, useUpdateDeckMutation } from '@/services/decks'
-import { modalActions, NameModal, selectOpenModals, selectSettings } from '@/services/modal'
+import { deckSlice } from '@/services/decks/deck.slice.ts'
+import {
+  modalActions,
+  NameModal,
+  selectCardSettings,
+  selectOpen,
+  selectPackSettings,
+} from '@/services/modal'
 import { useAppDispatch, useAppSelector } from '@/services/store.ts'
 
 export const MyPack = () => {
   const params = useParams<{ id: string }>()
   const navigate = useNavigate()
 
-  const { privatePack, packName, question, answer } = useAppSelector(selectSettings)
-  const itemsPerPage = useAppSelector(state => state.deckSlice.itemsPerPage)
+  const { privatePack, packName } = useAppSelector(selectPackSettings)
+  const { question, answer, questionImg, answerImg } = useAppSelector(selectCardSettings)
+  const itemsPerPage = useAppSelector(state => state.deckSlice.currentPerPageMyPack)
   const options = useAppSelector(state => state.deckSlice.paginationOptions)
-  const currentPage = useAppSelector(state => state.deckSlice.currentPage)
-  const { editPack, deletePack, addCard, editCard, deleteCard } = useAppSelector(selectOpenModals)
+  const currentPage = useAppSelector(state => state.deckSlice.currentPageMyPack)
+  const open = useAppSelector(selectOpen)
   const dispatch = useAppDispatch()
 
   const [cardId, setCardId] = useState<string>('')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<Sort>({ key: 'updated', direction: 'desc' })
-  const [perPage, setPerPage] = useState({ id: 1, value: itemsPerPage })
-  const [page, setPage] = useState(currentPage)
 
   const sortedString = useMemo(() => {
     if (!sort) return null
@@ -52,12 +64,12 @@ export const MyPack = () => {
   const { data } = useGetDeckQuery({
     id: params.id,
   })
-  const { data: dataCards } = useGetCardsQuery({
+  const { data: dataCards, isLoading } = useGetCardsQuery({
     id: params.id,
     question: search,
     orderBy: sortedString,
-    itemsPerPage: perPage.value,
-    currentPage: page,
+    itemsPerPage: itemsPerPage.value,
+    currentPage: currentPage,
   })
   const [createCard] = useCreateCardMutation()
   const [editItem] = useEditCardMutation()
@@ -71,26 +83,81 @@ export const MyPack = () => {
     dispatch(modalActions.setPrivatePack(data!.isPrivate))
     setCardId(data!.id)
   }
-  const onSetPerPageHandler = (value: number) => {
-    setPerPage({ ...perPage, value })
+  const setNewCurrentPage = (page: number) => {
+    dispatch(deckSlice.actions.setCurrentPageFriendsPack(page))
   }
+  const setNewPerPage = (value: number) => {
+    dispatch(deckSlice.actions.setItemsMyPackPerPage(value))
+  }
+
   const addCardModalHandler = () => {
     dispatch(modalActions.setOpenModal('addCard'))
   }
-  const onHandlerActionClicked = (value: NameModal) => {
-    if (addCard) {
-      createCard({ id: params.id, question, answer })
-    } else if (editCard) {
-      editItem({ id: cardId, question, answer })
-    } else if (deleteCard) {
+  const addOrEditCard = () => {
+    if (open === 'addCard') {
+      const formData = new FormData()
+
+      formData.append('question', question)
+      formData.append('answer', answer)
+
+      questionImg && formData.append('questionImg', questionImg)
+      answerImg && formData.append('answerImg', answerImg)
+      createCard({ id: params.id, formData })
+    } else if (open === 'editCard') {
+      const formData = new FormData()
+
+      formData.append('question', question)
+      formData.append('answer', answer)
+
+      questionImg && formData.append('questionImg', questionImg)
+      answerImg && formData.append('answerImg', answerImg)
+      editItem({ id: cardId, formData })
+        .unwrap()
+        .then(() => toast.success('Карточка успешна обновлена'))
+        .catch(() => {
+          toast.error('Some error')
+        })
+    }
+    dispatch(modalActions.setCloseModal({}))
+    dispatch(modalActions.setClearState({}))
+  }
+  const deleteCardOrPack = () => {
+    if (open === 'deleteCard') {
       deleteItem({ id: cardId })
-    } else if (editPack) {
+    } else if (open === 'editPack') {
       editDeck({ id: cardId, name: packName, isPrivate: privatePack })
-    } else if (deletePack) {
+        .unwrap()
+        .then(() => {
+          toast.success('Колода успешно обновлена')
+        })
+        .catch(() => {
+          toast.error('Some error')
+        })
+    } else if (open === 'deletePack') {
       deleteDeck({ id: cardId })
+        .unwrap()
+        .then(() => {
+          toast.success('Карта успешно удалена')
+        })
+        .catch(() => {
+          toast.error('Some error')
+        })
+
       navigate('/')
     }
-    dispatch(modalActions.setCloseModal(value))
+    dispatch(modalActions.setCloseModal({}))
+    dispatch(modalActions.setClearState({}))
+  }
+  const editPack = () => {
+    editDeck({ id: cardId, name: packName, isPrivate: privatePack })
+      .unwrap()
+      .then(() => {
+        toast.success('Колода успешно обновлена')
+      })
+      .catch(() => {
+        toast.error('Some error')
+      })
+    dispatch(modalActions.setCloseModal({}))
     dispatch(modalActions.setClearState({}))
   }
 
@@ -128,6 +195,8 @@ export const MyPack = () => {
     },
   ]
 
+  if (isLoading) return <Loader />
+
   return (
     <div className={s.myPackBlock}>
       <Button as={Link} to="/" variant={'link'} className={s.backButton}>
@@ -135,9 +204,12 @@ export const MyPack = () => {
         Back to Packs List
       </Button>
       <div className={s.headBlock}>
-        <div className={s.titleMenu}>
-          <Typography variant={'large'}>{data?.name}</Typography>
-          <DropDownMenuDemo items={dropDownMenu} trigger={<SubMenu />} />
+        <div className={s.titleAndCover}>
+          <div className={s.titleMenu}>
+            <Typography variant={'large'}>{data?.name}</Typography>
+            <DropDownMenuDemo items={dropDownMenu} trigger={<SubMenu />} />
+          </div>
+          {data?.cover && <img src={data.cover} alt="cover" className={s.cover} />}
         </div>
         <Button variant={'primary'} onClick={addCardModalHandler}>
           Add New Card
@@ -146,18 +218,25 @@ export const MyPack = () => {
       <TextField
         value={search}
         onChangeText={event => setSearch(event)}
+        onSearchClear={() => setSearch('')}
         type={'searchType'}
         className={s.textField}
       />
       <MyPackTable dataCards={dataCards} sort={sort} setSort={setSort} setCardId={setCardId} />
-      <TableModal handleClicked={onHandlerActionClicked} />
+      <AddEditCardModal onSubmit={addOrEditCard} />
+      <AddEditPackModal onSubmit={editPack} />
+      <DeletePackCardModal onSubmit={deleteCardOrPack} />
       <div className={s.pagination}>
-        <Pagination count={dataCards?.pagination.totalPages} page={page} onChange={setPage} />
+        <Pagination
+          count={dataCards?.pagination.totalPages}
+          page={currentPage}
+          onChange={setNewCurrentPage}
+        />
         <Typography variant={'body2'}>Показать</Typography>
         <SuperSelect
           options={options}
-          defaultValue={perPage.value}
-          onValueChange={onSetPerPageHandler}
+          defaultValue={itemsPerPage.value}
+          onValueChange={setNewPerPage}
           classname={s.selectPagination}
         />
         <Typography variant={'body2'}>На странице</Typography>
