@@ -1,10 +1,11 @@
 import { ChangeEvent, KeyboardEvent, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
-import { DeleteIcon, Eye, NotEye, Search } from '../../../assets'
 import { LabelDemo } from '../label'
 import { Typography } from '../typography'
 
 import s from './textfield.module.scss'
+
+import { DeleteIcon, Eye, NotEye, Search } from '@/assets'
 
 export type TextFieldProps = {
   type: 'default' | 'password' | 'searchType'
